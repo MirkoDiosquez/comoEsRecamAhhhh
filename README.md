@@ -29,7 +29,11 @@ http://localhost:8080
  http://localhost:8080.
 
 
- Veremos la página con el html básico. Modificar con algunas cosas a gusto.
+ Veremos la página predeterminada de Nginx. Para modificarla, accedemos al archivo HTML con nano:
+
+ nano /var/www/html/index.nginx-debian.html
+
+ Ahí podemos editar el contenido de la página a gusto. Una vez realizados los cambios, guardamos con Ctrl+O y salimos con Ctrl+X.
 
 
 
@@ -114,3 +118,6 @@ Quinto paso : Corroborar si funciona
 
 http://localhost:8585/static/
 
+
+C — Configuración por dominio (Virtual Host)
+Configurar un Virtual Host para que el sitio C sea accesible mediante un nombre de dominio local. Para esto:
