@@ -121,3 +121,53 @@ http://localhost:8585/static/
 
 C — Configuración por dominio (Virtual Host)
 Configurar un Virtual Host para que el sitio C sea accesible mediante un nombre de dominio local. Para esto:
+
+
+Paso 1 — Instalar NGINX
+bashsudo apt update
+sudo apt upgrade -y
+sudo apt install nginx -y
+Verificar que esté corriendo:
+bashsudo systemctl status nginx
+
+Paso 2 — Crear la carpeta y el sitio estático
+bashsudo mkdir -p /var/www/misitio
+sudo nano /var/www/misitio/index.html
+Contenido del HTML:
+html<html>
+  <body>
+    <h1>Bienvenido a misitio.com</h1>
+  </body>
+</html>
+
+Paso 3 — Crear el Virtual Host en NGINX
+bashsudo nano /etc/nginx/sites-available/misitio
+Contenido del archivo:
+nginxserver {
+    listen 80;
+    server_name misitio.com;
+
+    root /var/www/misitio;
+    index index.html;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
+
+Paso 4 — Activar el sitio y deshabilitar el default
+bashsudo rm /etc/nginx/sites-enabled/default
+sudo ln -s /etc/nginx/sites-available/misitio /etc/nginx/sites-enabled/
+Verificar que la configuración no tenga errores:
+bashsudo nginx -t
+Recargar NGINX:
+bashsudo systemctl reload nginx
+
+Paso 5 — Configurar /etc/hosts
+bashsudo nano /etc/hosts
+Agregar esta línea:
+127.0.0.1 misitio.com
+
+Paso 6 — Verificar que funciona
+bashcurl http://misitio.com
+Resultado esperado: el HTML con "Bienvenido a misitio.com".
