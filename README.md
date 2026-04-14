@@ -35,10 +35,6 @@ service nginx status
 
 Si no corre, iniciarlo:
 
-```bash
-service nginx start.
-```
-
 4) Acceder a:
 
 **http://localhost:8080**
@@ -280,11 +276,19 @@ java -version && mvn -version && nginx -v
 
 ### Paso 3 — Estructura del proyecto
 
+> ⚠️ **Este paso es obligatorio.** Antes de crear cualquier archivo con nano, hay que crear toda la estructura de carpetas. Si se saltea este paso, al intentar guardar el archivo con nano va a aparecer el siguiente error:
+> ```
+> Error writing src/main/java/com/example/App.java: No such file or directory
+> ```
+> Esto pasa porque nano puede crear archivos, pero **no puede crear carpetas**. Los directorios deben existir previamente.
+
 ```bash
 mkdir -p ~/holamundo/src/main/java/com/example
 mkdir -p ~/holamundo/src/main/resources
 cd ~/holamundo
 ```
+
+> ✅ Verificá que estás parado dentro de `~/holamundo` antes de continuar. Podés confirmarlo con `pwd`, que debería devolver `/root/holamundo`.
 
 ### Paso 4 — Crear archivos
 
@@ -426,5 +430,45 @@ curl http://localhost/app/
 Debe devolver: `Hola Mundo desde Spring Boot!`
 
 La diferencia con el paso 6 es que ahora la petición entra por NGINX (puerto 80) y se redirige internamente al 8000 de Spring Boot.
+
+---
+
+## D — Problema común: Error al crear archivos con nano en Spring Boot
+
+### Error típico
+
+Al intentar crear el archivo `App.java` con:
+
+```bash
+nano src/main/java/com/example/App.java
+```
+
+puede aparecer el error:
+
+```
+Error writing src/main/java/com/example/App.java: No such file or directory
+```
+
+### ¿Por qué ocurre?
+
+Este error sucede porque la ruta completa `src/main/java/com/example/` no existe todavía. Nano no puede crear carpetas intermedias, solo archivos.
+
+### Solución paso a paso
+
+Antes de usar nano para crear el archivo, asegurate de crear toda la estructura de carpetas necesaria con el siguiente comando:
+
+```bash
+mkdir -p src/main/java/com/example
+```
+
+Luego sí podés ejecutar:
+
+```bash
+nano src/main/java/com/example/App.java
+```
+
+Esto evitará el error y te permitirá crear y guardar el archivo correctamente.
+
+> **Recomendación:** Siempre que vayas a crear un archivo en una ruta profunda, primero usá `mkdir -p` para asegurarte de que todas las carpetas existen.
 
 ---
