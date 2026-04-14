@@ -152,7 +152,7 @@ Configurar un Virtual Host para que el sitio C sea accesible por un dominio loca
 ### Paso 1 — Instalar NGINX
 
 ```bash
-bashsudo apt update
+sudo apt update
 sudo apt upgrade -y
 sudo apt install nginx -y
 ```
@@ -160,13 +160,13 @@ sudo apt install nginx -y
 Verificar estado:
 
 ```bash
-bashsudo systemctl status nginx
+sudo systemctl status nginx
 ```
 
 ### Paso 2 — Crear carpeta y sitio estático
 
 ```bash
-bashsudo mkdir -p /var/www/misitio
+sudo mkdir -p /var/www/misitio
 sudo nano /var/www/misitio/index.html
 ```
 
@@ -183,7 +183,7 @@ Contenido del HTML:
 ### Paso 3 — Crear Virtual Host en NGINX
 
 ```bash
-bashsudo nano /etc/nginx/sites-available/misitio
+sudo nano /etc/nginx/sites-available/misitio
 ```
 
 Contenido:
@@ -205,26 +205,26 @@ server {
 ### Paso 4 — Activar sitio y deshabilitar default
 
 ```bash
-bashsudo rm /etc/nginx/sites-enabled/default
+sudo rm /etc/nginx/sites-enabled/default
 sudo ln -s /etc/nginx/sites-available/misitio /etc/nginx/sites-enabled/
 ```
 
 Validar configuración:
 
 ```bash
-bashsudo nginx -t
+sudo nginx -t
 ```
 
 Recargar NGINX:
 
 ```bash
-bashsudo systemctl reload nginx
+sudo systemctl reload nginx
 ```
 
 ### Paso 5 — Configurar `/etc/hosts`
 
 ```bash
-bashsudo nano /etc/hosts
+sudo nano /etc/hosts
 ```
 
 Agregar:
@@ -236,7 +236,7 @@ Agregar:
 ### Paso 6 — Verificar
 
 ```bash
-bashcurl http://misitio.com
+curl http://misitio.com
 ```
 
 Resultado esperado: HTML con “Bienvenido a misitio.com”.
@@ -259,7 +259,7 @@ No hace falta instalar Java/Maven en la máquina host.
 ### Paso 1 — Levantar contenedor Ubuntu
 
 ```bash
-bashdocker run -it --name mi-servidor -p 8888:80 -p 9000:8000 ubuntu:latest bash
+docker run -it --name mi-servidor -p 8888:80 -p 9000:8000 ubuntu:latest bash
 ```
 
 Qué hace cada parte:
@@ -272,19 +272,19 @@ Qué hace cada parte:
 ### Paso 2 — Instalar Java, Maven y NGINX
 
 ```bash
-bashapt update && apt install -y openjdk-17-jdk maven nginx nano curl
+apt update && apt install -y openjdk-17-jdk maven nginx nano curl
 ```
 
 Luego verificar:
 
 ```bash
-bashjava -version && mvn -version && nginx -v
+java -version && mvn -version && nginx -v
 ```
 
 ### Paso 3 — Estructura del proyecto
 
 ```bash
-bashmkdir -p ~/holamundo/src/main/java/com/example
+mkdir -p ~/holamundo/src/main/java/com/example
 mkdir -p ~/holamundo/src/main/resources
 cd ~/holamundo
 ```
@@ -294,7 +294,7 @@ cd ~/holamundo
 #### 4.1 `App.java`
 
 ```bash
-bashnano src/main/java/com/example/App.java
+nano src/main/java/com/example/App.java
 ```
 
 ```java
@@ -323,7 +323,7 @@ public class App {
 #### 4.2 `application.properties`
 
 ```bash
-bashnano src/main/resources/application.properties
+nano src/main/resources/application.properties
 ```
 
 ```properties
@@ -334,7 +334,7 @@ server.servlet.context-path=/app
 #### 4.3 `pom.xml`
 
 ```bash
-bashnano pom.xml
+nano pom.xml
 ```
 
 ```xml
@@ -375,7 +375,7 @@ bashnano pom.xml
 ### Paso 5 — Compilar proyecto
 
 ```bash
-bashmvn clean package -DskipTests
+mvn clean package -DskipTests
 ```
 
 Esperado: `BUILD SUCCESS`.
@@ -383,13 +383,13 @@ Esperado: `BUILD SUCCESS`.
 ### Paso 6 — Levantar app Spring Boot
 
 ```bash
-bashjava -jar target/holamundo-1.0.jar &
+java -jar target/holamundo-1.0.jar &
 ```
 
 Verificar:
 
 ```bash
-bashcurl http://localhost:8000/app/
+curl http://localhost:8000/app/
 ```
 
 Respuesta esperada: `Hola Mundo desde Spring Boot!`
@@ -397,7 +397,7 @@ Respuesta esperada: `Hola Mundo desde Spring Boot!`
 ### Paso 7 — Configurar NGINX como reverse proxy
 
 ```bash
-bashnano /etc/nginx/sites-available/default
+nano /etc/nginx/sites-available/default
 ```
 
 Contenido:
@@ -417,13 +417,13 @@ server {
 Iniciar NGINX:
 
 ```bash
-bashservice nginx start
+service nginx start
 ```
 
 ### Paso 8 — Verificación final
 
 ```bash
-bashcurl http://localhost/app/
+curl http://localhost/app/
 ```
 
 Debe devolver: `Hola Mundo desde Spring Boot!`
