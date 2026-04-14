@@ -142,6 +142,7 @@ service nginx restart
 **http://localhost:8585/static/**
 
 ---
+<!-- ...existing code... -->
 
 ## C — Configuración por dominio (Virtual Host)
 
@@ -149,18 +150,13 @@ Configurar un Virtual Host para que el sitio C sea accesible por un dominio loca
 
 > ESTE PASO SE HACE DESDE VIRTUAL BOX
 
-### Paso 1 — Instalar NGINX
+### Paso 1 — Instalar NGINX (sin `upgrade`)
 
 ```bash
 sudo apt update
-sudo apt upgrade -y
 sudo apt install nginx -y
-```
-
-Verificar estado:
-
-```bash
-sudo systemctl status nginx
+sudo systemctl enable --now nginx
+sudo systemctl status nginx --no-pager
 ```
 
 ### Paso 2 — Crear carpeta y sitio estático
@@ -191,6 +187,7 @@ Contenido:
 ```nginx
 server {
     listen 80;
+    listen [::]:80;
     server_name misitio.com;
 
     root /var/www/misitio;
@@ -205,8 +202,8 @@ server {
 ### Paso 4 — Activar sitio y deshabilitar default
 
 ```bash
-sudo rm /etc/nginx/sites-enabled/default
 sudo ln -s /etc/nginx/sites-available/misitio /etc/nginx/sites-enabled/
+sudo rm -f /etc/nginx/sites-enabled/default
 ```
 
 Validar configuración:
@@ -227,7 +224,7 @@ sudo systemctl reload nginx
 sudo nano /etc/hosts
 ```
 
-Agregar:
+Agregar esta línea:
 
 ```txt
 127.0.0.1 misitio.com
@@ -241,7 +238,7 @@ curl http://misitio.com
 
 Resultado esperado: HTML con “Bienvenido a misitio.com”.
 
----
+<!-- ...existing code... -->
 
 ## D — App Java Spring Boot + Reverse Proxy con NGINX
 
